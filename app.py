@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-from routes.auth import Auth
+from routes import Auth
 from config import run_server
 
 
