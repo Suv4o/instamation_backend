@@ -3,4 +3,4 @@ from flask_restful import Resource
 
 class Auth(Resource):
     def get(self):
-        return {"success": False}
+        return {"success": True}

@@ -5,7 +5,6 @@ from config import run_server
 
 
 app = Flask("app")
-app.debug = True
 api = Api(app, prefix="/api")
 
 
