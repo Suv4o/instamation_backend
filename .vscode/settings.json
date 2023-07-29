@@ -1,0 +1,11 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true
+    },
+    "python.formatting.blackArgs": ["--line-length", "120"],
+    "files.associations": {
+        "*.py": "python"
+    },
+    "python.analysis.importFormat": "relative"
+}
