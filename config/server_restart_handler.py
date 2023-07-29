@@ -3,7 +3,8 @@ import sys
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from waitress import serve
-from config import SERVER_HOST, SERVER_PORT, Logger
+from config import PYTHON_ENV, SERVER_HOST, SERVER_PORT, Logger
+from utils import PythonEnv
 
 console = Logger("app").get()
 
@@ -12,8 +13,10 @@ class ServerRestartHandler(FileSystemEventHandler):
     def on_any_event(self, event):
         if event.is_directory:
             return None
+        elif os.path.basename(event.src_path) == "requirements.txt":
+            return None
         elif event.event_type == "modified":
-            print("Restarting server...")
+            console.info("Restarting server...")
             os.execl(sys.executable, sys.executable, *sys.argv)
 
 
@@ -28,3 +31,12 @@ def run_server(app):
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
+
+
+# This function is used to generate requirements.txt
+# It is called from app.py only when the app is running in local environment
+def generate_requirements():
+    if PYTHON_ENV == PythonEnv.LOCAL.value:
+        script_path = "generate_requirements.sh"
+        os.system(f"bash {script_path}")
+        console.info("Requirements generated.")
