@@ -1,4 +1,18 @@
 {
+    "rest-client.environmentVariables": {
+        "local": {
+            "baseUrl": "http://localhost:8080/api",
+            "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkJuLUptSDhoenpWLUV3NFdxTHRMciJ9.eyJpc3MiOiJodHRwczovL2luc3RhbWF0aW9uLmF1LmF1dGgwLmNvbS8iLCJzdWIiOiJuaUFza005VGFMMnVLVE9ybkRNUGxEOFcyOWx2VGxKQkBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9pbnN0YW1hdGlvbi5hdS5hdXRoMC5jb20vYXBpL3YyLyIsImlhdCI6MTY5MDY3NzM2NCwiZXhwIjoxNjkwNjgwOTY0LCJhenAiOiJuaUFza005VGFMMnVLVE9ybkRNUGxEOFcyOWx2VGxKQiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.cP1QCXuOVvm-zIbpfdEIAtjx9gSI4aOuYL-mq35IWH0eRr6SXl3NSmgXm5gh1LC0i401TAuCG6nTtXy3y8E186ZimNl1SOaPU93btQpIPW-9598iAWdKeS9xs5UQ8jTJxY9M19X3khjI5dzG-PdMFzwOzFLnepvbmpB1l6H5NNTm9UJP6hZE56-noFx-SLdBvNuktBO6TYOHqdemzLReNKN7mPv-7dqdXCpsreMi-ChlWVTU_NKwTs9Cj-rbSCWFrATyJ2rUk9FXDnmau5vn-qz0sFhAD9jm8slJT6dsE2oNcI8MIXwTnYRV6MThcQXS0-maUNjfGzbUVcep3NK-qg"
+        },
+        "staging": {
+            "baseUrl": "http://localhost:3001/api",
+            "token": "eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaW4if"
+        },
+        "production": {
+            "baseUrl": "https://instamation-app-lqvj5.ondigitalocean.app/api",
+            "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkJuLUptSDhoenpWLUV3NFdxTHRMciJ9.eyJpc3MiOiJodHRwczovL2luc3RhbWF0aW9uLmF1LmF1dGgwLmNvbS8iLCJzdWIiOiJuaUFza005VGFMMnVLVE9ybkRNUGxEOFcyOWx2VGxKQkBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9pbnN0YW1hdGlvbi5hdS5hdXRoMC5jb20vYXBpL3YyLyIsImlhdCI6MTY5MDY3NzM2NCwiZXhwIjoxNjkwNjgwOTY0LCJhenAiOiJuaUFza005VGFMMnVLVE9ybkRNUGxEOFcyOWx2VGxKQiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.cP1QCXuOVvm-zIbpfdEIAtjx9gSI4aOuYL-mq35IWH0eRr6SXl3NSmgXm5gh1LC0i401TAuCG6nTtXy3y8E186ZimNl1SOaPU93btQpIPW-9598iAWdKeS9xs5UQ8jTJxY9M19X3khjI5dzG-PdMFzwOzFLnepvbmpB1l6H5NNTm9UJP6hZE56-noFx-SLdBvNuktBO6TYOHqdemzLReNKN7mPv-7dqdXCpsreMi-ChlWVTU_NKwTs9Cj-rbSCWFrATyJ2rUk9FXDnmau5vn-qz0sFhAD9jm8slJT6dsE2oNcI8MIXwTnYRV6MThcQXS0-maUNjfGzbUVcep3NK-qg"
+        }
+    },
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true
