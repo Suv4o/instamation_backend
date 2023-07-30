@@ -15,3 +15,21 @@ $ pipenv install
 ```bash
 $ pipenv run python main.py
 ```
+
+## VS Code setup
+
+Add the following to your `settings.json`:
+
+```json
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true
+    },
+    "python.formatting.blackArgs": ["--line-length", "120"],
+    "files.associations": {
+        "*.py": "python"
+    },
+    "python.analysis.importFormat": "relative"
+}
+```
