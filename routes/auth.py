@@ -1,8 +1,8 @@
 from flask_restful import Resource
-from utils import auth
+from utils import requires_auth
 
 
 class Auth(Resource):
-    @auth
+    @requires_auth
     def get(self):
-        return {"success": True}
+        return {"success": True, "current_user": self.current_user}
