@@ -12,11 +12,47 @@ $ pipenv install
 
 ## Start the project
 
+### Docker
+
+```bash
+$ docker-compose up
+```
+
+### Run locally
+
 ```bash
 $ pipenv run python main.py
 ```
 
-## VS Code setup
+## Migrations
+
+## Prerequisites
+
+You will need to install `postgresql@14` on your machine in order to run the migrations.
+
+```bash
+$ brew install postgresql@14
+```
+
+### Create a migration
+
+```bash
+$ pipenv run alembic revision --autogenerate -m "Migration name"
+```
+
+### Run migrations
+
+```bash
+$ pipenv run alembic upgrade head
+```
+
+### Reverse migrations
+
+```bash
+$ pipenv run alembic downgrade -1
+```
+
+## VS Code setup for formatting
 
 Add the following to your `settings.json`:
 

@@ -11,6 +11,9 @@ waitress = "*"
 watchdog = "*"
 python-jose = "*"
 six = "*"
+alembic = "*"
+sqlalchemy = "*"
+psycopg2 = "*"
 
 [dev-packages]
 
