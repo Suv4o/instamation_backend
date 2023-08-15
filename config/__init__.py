@@ -10,6 +10,7 @@ __all__ = [
     "AUTH0_DOMAIN",
     "AUTH0_API_AUDIENCE",
     "AUTH0_RS256_ALGORITHMS",
+    "POSTGRES_URI",
     "Logger",
     "run_server",
     "generate_requirements",
