@@ -20,8 +20,7 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from models.base import Model
-from models.user import User, Preference, Address, Role, UserRole
+from models import *
 
 target_metadata = Model.metadata
 
