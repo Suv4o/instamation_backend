@@ -1,5 +1,5 @@
 from flask_restful import reqparse
-from utils import get_token_auth_header, get_current_user
+from utils import get_token_auth_header, get_current_user_info, add_user_to_database_if_not_exists
 
 
 def requires_auth(func):
@@ -9,7 +9,8 @@ def requires_auth(func):
     def wrapper(self):
         args = parser.parse_args()
         access_token = get_token_auth_header(args.get("Authorization"))
-        current_user = get_current_user(access_token)
+        current_user = get_current_user_info(access_token)
+        add_user_to_database_if_not_exists(current_user)
         self.current_user = current_user
         return func(self)
 
