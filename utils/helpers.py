@@ -3,8 +3,7 @@ import requests
 from jose import jwt
 from six.moves.urllib.request import urlopen
 from werkzeug.exceptions import Unauthorized
-from config import AUTH0_DOMAIN, AUTH0_API_AUDIENCE, AUTH0_RS256_ALGORITHMS
-from config import db_session
+from config import AUTH0_DOMAIN, AUTH0_API_AUDIENCE, AUTH0_RS256_ALGORITHMS, db_session
 from models import Users
 
 
