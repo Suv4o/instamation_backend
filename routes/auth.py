@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from utils import requires_auth
+from utils.decorators import requires_auth
 
 
 class Auth(Resource):

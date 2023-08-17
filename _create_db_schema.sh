@@ -1,0 +1,1 @@
+cd scripts && pipenv run python create_db_schema.py

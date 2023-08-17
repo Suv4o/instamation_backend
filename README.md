@@ -26,7 +26,7 @@ $ pipenv run python main.py
 
 ## Migrations
 
-## Prerequisites
+### Prerequisites
 
 You will need to install `postgresql@14` on your machine in order to run the migrations.
 
@@ -50,6 +50,26 @@ $ pipenv run alembic upgrade head
 
 ```bash
 $ pipenv run alembic downgrade -1
+```
+
+## Scripts
+
+Create Database Schema
+
+```bash
+$ sh _scripts/create_db_schema.sh
+```
+
+Drop Database Schema
+
+```bash
+$ sh _scripts/drop_db_schema.sh
+```
+
+Generate requirements.txt
+
+```bash
+$ sh _generate_requirements.sh
 ```
 
 ## VS Code setup for formatting

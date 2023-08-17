@@ -1,4 +1,4 @@
-from config import POSTGRES_URI
+from config.environments import POSTGRES_URI
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config

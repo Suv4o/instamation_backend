@@ -3,8 +3,9 @@ import sys
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from waitress import serve
-from config import PYTHON_ENV, SERVER_HOST, SERVER_PORT, Logger
-from utils import PythonEnv
+from config.environments import PYTHON_ENV, SERVER_HOST, SERVER_PORT
+from config.logging import Logger
+from utils.enums import PythonEnv
 
 console = Logger("app").get()
 
@@ -37,6 +38,6 @@ def run_server(app):
 # It is called from app.py only when the app is running in local environment
 def generate_requirements():
     if PYTHON_ENV == PythonEnv.LOCAL.value:
-        script_path = "generate_requirements.sh"
+        script_path = "_generate_requirements.sh"
         os.system(f"bash {script_path}")
         console.info("Requirements generated.")

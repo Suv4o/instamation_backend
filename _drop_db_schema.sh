@@ -1,0 +1,1 @@
+cd scripts && pipenv run python drop_db_schema.py
