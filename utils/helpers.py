@@ -56,7 +56,7 @@ def get_current_user_info(token):
         user_info = requests.get(f"https://{AUTH0_DOMAIN}/userinfo", headers={"Authorization": f"Bearer {token}"})
         return user_info.json()
     except Exception:
-        raise Unauthorized("Unable to get user info")
+        raise Unauthorized("Unable to parse authentication token")
 
 
 def add_user_to_database_if_not_exists(user):
