@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+
 from utils.decorators import requires_auth
 
 

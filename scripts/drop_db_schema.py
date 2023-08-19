@@ -3,6 +3,7 @@ import sys
 sys.path.append("../")
 
 import psycopg2
+
 from config.logging import Logger
 from config.environments import POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_HOST, POSTGRES_PORT
 

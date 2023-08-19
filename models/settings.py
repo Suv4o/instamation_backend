@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import Relationship
+
 from models.base import TimeStampedModel
 
 

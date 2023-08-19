@@ -1,8 +1,10 @@
 import os
 import sys
+
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from waitress import serve
+
 from config.environments import PYTHON_ENV, SERVER_HOST, SERVER_PORT
 from config.logging import Logger
 from utils.enums import PythonEnv

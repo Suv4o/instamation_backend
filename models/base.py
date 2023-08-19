@@ -1,6 +1,7 @@
 from datetime import datetime
 from sqlalchemy import Column, DateTime
 from sqlalchemy.orm import declarative_base
+
 from config.database import db_session
 
 Model = declarative_base()

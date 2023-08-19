@@ -1,4 +1,5 @@
 from flask_restful import Resource
+
 from utils.decorators import requires_auth
 
 
