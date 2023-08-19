@@ -1,4 +1,4 @@
 from .auth import Auth
-from .settings import Settings
+from .settings import SettingsRoute
 
-__all__ = ["Auth", "Settings"]
+__all__ = ["Auth", "SettingsRoute"]

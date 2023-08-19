@@ -9,6 +9,6 @@ Authorization: Bearer {{token}}
 content-type: application/json
 
 {
-    "instagram_username": "test_username",
-    "instagram_password": "test_password"
+    "instagram_username": "test_username2",
+    "instagram_password": "test_password2"
 }

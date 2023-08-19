@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-from routes import Auth, Settings
+from routes import Auth, SettingsRoute
 from config.server_restart_handler import run_server, generate_requirements
 
 
@@ -11,7 +11,7 @@ api = Api(app, prefix="/api")
 
 # Routes
 api.add_resource(Auth, "/")
-api.add_resource(Settings, "/settings")
+api.add_resource(SettingsRoute, "/settings")
 
 if __name__ == "__main__":
     generate_requirements()
