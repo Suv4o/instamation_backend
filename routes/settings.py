@@ -17,6 +17,7 @@ class SettingsRoute(Resource):
             store_settings_in_db(args, current_user=self.current_user)
 
             return {"success": True, "message": "Settings saved successfully!"}
+
         except Exception as e:
             raise BadRequest(e)
 
@@ -37,5 +38,6 @@ def store_settings_in_db(args, current_user):
             settings = Settings(user_id=user.uid, instagram_username=user_name, instagram_password=password)
             db_session.add(settings)
             db_session.commit()
+
     except Exception as e:
         raise BadRequest(e)
