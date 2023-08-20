@@ -4,6 +4,7 @@ import requests
 from jose import jwt
 from six.moves.urllib.request import urlopen
 from werkzeug.exceptions import Unauthorized
+from cryptography.fernet import Fernet
 
 from config.environments import AUTH0_DOMAIN, AUTH0_API_AUDIENCE, AUTH0_RS256_ALGORITHMS
 from config.database import db_session
@@ -69,3 +70,15 @@ def add_user_to_database_if_not_exists(user):
             db_session.commit()
     except Exception:
         raise Unauthorized("Unable to add user to database")
+
+
+def encrypt_string(string, key):
+    fernet = Fernet(key)
+    encrypted_string = fernet.encrypt(string.encode())
+    return encrypted_string.decode("utf-8")
+
+
+def decrypt_string(string, key):
+    fernet = Fernet(key.encode("utf-8"))
+    decrypted_string = fernet.decrypt(string).decode()
+    return decrypted_string

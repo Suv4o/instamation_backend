@@ -1,7 +1,11 @@
+import base64
+
+from cryptography.fernet import Fernet
 from flask_restful import Resource, reqparse
 from werkzeug.exceptions import BadRequest
 
 from utils.decorators import requires_auth
+from utils.helpers import encrypt_string
 from config.database import db_session
 from models import Settings, Users
 
@@ -31,11 +35,21 @@ def store_settings_in_db(args, current_user):
         settings = Settings.query.join(Settings.user).filter(Users.uid == user.uid).first()
 
         if settings:
+            encryption_key = settings.encryption_key
+
             settings.instagram_username = user_name
-            settings.instagram_password = password
+            settings.instagram_password = encrypt_string(password, encryption_key)
             db_session.commit()
+
         else:
-            settings = Settings(user_id=user.uid, instagram_username=user_name, instagram_password=password)
+            encryption_key = Fernet.generate_key()
+
+            settings = Settings(
+                user_id=user.uid,
+                instagram_username=user_name,
+                instagram_password=encrypt_string(password, encryption_key),
+                encryption_key=encryption_key.decode("utf-8"),
+            )
             db_session.add(settings)
             db_session.commit()
 

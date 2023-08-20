@@ -8,8 +8,9 @@ class Settings(TimeStampedModel):
     __tablename__ = "settings"
 
     sid = Column("id", Integer, primary_key=True, autoincrement=True)
-    instagram_username = Column(String(30), nullable=True)
-    instagram_password = Column(String(30), nullable=True)
+    instagram_username = Column(String(255), nullable=True)
+    instagram_password = Column(String(255), nullable=True)
+    encryption_key = Column(String(255), nullable=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True, unique=True)
 
     user = Relationship("Users", back_populates="setting")

@@ -57,13 +57,13 @@ $ pipenv run alembic downgrade -1
 Create Database Schema
 
 ```bash
-$ sh _scripts/create_db_schema.sh
+$ sh _create_db_schema.sh
 ```
 
 Drop Database Schema
 
 ```bash
-$ sh _scripts/drop_db_schema.sh
+$ sh _drop_db_schema.sh
 ```
 
 Generate requirements.txt
