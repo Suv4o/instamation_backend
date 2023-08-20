@@ -1,10 +1,12 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api
 from routes import Auth, SettingsRoute
 from config.server_restart_handler import run_server, generate_requirements
 
 
 app = Flask("app")
+CORS(app)
 app.config["BUNDLE_ERRORS"] = True
 api = Api(app, prefix="/api")
 

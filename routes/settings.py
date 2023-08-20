@@ -5,12 +5,14 @@ from flask_restful import Resource, reqparse
 from werkzeug.exceptions import BadRequest
 
 from utils.decorators import requires_auth
-from utils.helpers import encrypt_string
+from utils.helpers import encrypt_string, decrypt_string
 from config.database import db_session
 from models import Settings, Users
 
 
 class SettingsRoute(Resource):
+    """Settings route definition"""
+
     @requires_auth
     def post(self):
         try:
@@ -21,6 +23,14 @@ class SettingsRoute(Resource):
             store_settings_in_db(args, current_user=self.current_user)
 
             return {"success": True, "message": "Settings saved successfully!"}
+
+        except Exception as e:
+            raise BadRequest(e)
+
+    @requires_auth
+    def get(self):
+        try:
+            return get_settings_from_db(self.current_user)
 
         except Exception as e:
             raise BadRequest(e)
@@ -52,6 +62,21 @@ def store_settings_in_db(args, current_user):
             )
             db_session.add(settings)
             db_session.commit()
+
+    except Exception as e:
+        raise BadRequest(e)
+
+
+def get_settings_from_db(current_user):
+    user_email = current_user["email"]
+    try:
+        user = Users.query.filter(Users.email == user_email).first()
+        settings = Settings.query.join(Settings.user).filter(Users.uid == user.uid).first()
+
+        return {
+            "instagram_username": settings.instagram_username,
+            "instagram_password": decrypt_string(settings.instagram_password, settings.encryption_key),
+        }
 
     except Exception as e:
         raise BadRequest(e)
