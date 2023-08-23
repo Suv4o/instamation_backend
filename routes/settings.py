@@ -1,5 +1,3 @@
-import base64
-
 from cryptography.fernet import Fernet
 from flask_restful import Resource, reqparse
 from werkzeug.exceptions import BadRequest
