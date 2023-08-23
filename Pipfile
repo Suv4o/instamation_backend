@@ -17,6 +17,7 @@ psycopg2 = "*"
 requests = "*"
 cryptography = "*"
 flask-cors = "*"
+appwrite = "*"
 
 [dev-packages]
 

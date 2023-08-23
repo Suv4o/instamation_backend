@@ -17,3 +17,10 @@ content-type: application/json
 GET {{baseUrl}}/settings HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
+
+### Upload an image
+POST {{baseUrl}}/assets HTTP/1.1
+Authorization: Bearer {{token}}
+content-type: application/json
+
+{}

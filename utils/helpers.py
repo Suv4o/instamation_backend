@@ -4,9 +4,18 @@ import requests
 from jose import jwt
 from six.moves.urllib.request import urlopen
 from werkzeug.exceptions import Unauthorized
+from appwrite.client import Client
+from appwrite.services.storage import Storage
 from cryptography.fernet import Fernet
 
-from config.environments import AUTH0_DOMAIN, AUTH0_API_AUDIENCE, AUTH0_RS256_ALGORITHMS
+from config.environments import (
+    AUTH0_DOMAIN,
+    AUTH0_API_AUDIENCE,
+    AUTH0_RS256_ALGORITHMS,
+    APPWRITE_ENDPOINT,
+    APPWRITE_PROJECT_ID,
+    APPWRITE_SECRET_API_KEY,
+)
 from config.database import db_session
 from models import Users
 
@@ -82,3 +91,10 @@ def decrypt_string(string, key):
     fernet = Fernet(key.encode("utf-8"))
     decrypted_string = fernet.decrypt(string).decode()
     return decrypted_string
+
+
+class Appwrite:
+    def __init__(self):
+        client = Client()
+        (client.set_endpoint(APPWRITE_ENDPOINT).set_project(APPWRITE_PROJECT_ID).set_key(APPWRITE_SECRET_API_KEY))
+        self.storage = Storage(client)
