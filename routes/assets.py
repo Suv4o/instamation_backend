@@ -8,7 +8,7 @@ from werkzeug.datastructures import FileStorage
 
 from utils.decorators import requires_auth
 from utils.helpers import Appwrite
-from config.environments import APPWRITE_BUCKET_ID
+from config.environments import APPWRITE_BUCKET_ID, TEMP_IMAGES_PATH
 
 
 class AssetsRoute(Resource):
@@ -36,12 +36,14 @@ class AssetsRoute(Resource):
             image_uuid = uuid.uuid4()
 
             image = Image.open(io.BytesIO(image_binary_data))
-            image.save(f"./temp/images/{image_uuid}.{image_extension}")
+            image.save(f"{TEMP_IMAGES_PATH}/{image_uuid}.{image_extension}")
             appwrite = Appwrite()
             appwrite.storage.create_file(
-                APPWRITE_BUCKET_ID, image_uuid, InputFile.from_path(f"./temp/images/{image_uuid}.{image_extension}")
+                APPWRITE_BUCKET_ID,
+                image_uuid,
+                InputFile.from_path(f"{TEMP_IMAGES_PATH}/{image_uuid}.{image_extension}"),
             )
-            os.remove(f"./temp/images/{image_uuid}.{image_extension}")
+            os.remove(f"{TEMP_IMAGES_PATH}/{image_uuid}.{image_extension}")
 
             return {"success": True, "message": "File uploaded successfully"}
         except Exception as e:
