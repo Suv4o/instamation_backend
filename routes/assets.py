@@ -21,16 +21,27 @@ class AssetsRoute(Resource):
             parser.add_argument("image", type=FileStorage, location="files")
             args = parser.parse_args()
             image_file = args["image"]
+            image_extension = (
+                "jpg"
+                if image_file.filename.split(".")[-1] in ["jpeg", "jpg"]
+                else "png"
+                if image_file.filename.split(".")[-1] in ["png"]
+                else None
+            )
+
+            if not image_extension:
+                raise BadRequest("Invalid image file")
+
             image_binary_data = file_storage_to_binary(image_file)
             image_uuid = uuid.uuid4()
 
             image = Image.open(io.BytesIO(image_binary_data))
-            image.save(f"./temp/images/{image_uuid}.jpg", "JPEG")
+            image.save(f"./temp/images/{image_uuid}.{image_extension}")
             appwrite = Appwrite()
             appwrite.storage.create_file(
-                APPWRITE_BUCKET_ID, "123", InputFile.from_path(f"./temp/images/{image_uuid}.jpg")
+                APPWRITE_BUCKET_ID, image_uuid, InputFile.from_path(f"./temp/images/{image_uuid}.{image_extension}")
             )
-            os.remove(f"./temp/images/{image_uuid}.jpg")
+            os.remove(f"./temp/images/{image_uuid}.{image_extension}")
 
             return {"success": True, "message": "File uploaded successfully"}
         except Exception as e:
