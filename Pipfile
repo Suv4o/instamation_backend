@@ -18,6 +18,7 @@ requests = "*"
 cryptography = "*"
 flask-cors = "*"
 appwrite = "*"
+pillow = "*"
 
 [dev-packages]
 

@@ -18,6 +18,8 @@ class ServerRestartHandler(FileSystemEventHandler):
             return None
         elif os.path.basename(event.src_path) == "requirements.txt":
             return None
+        elif "temp/images" in os.path.abspath(event.src_path):
+            return None
         elif event.event_type == "modified":
             console.info("Restarting server...")
             os.execl(sys.executable, sys.executable, *sys.argv)
