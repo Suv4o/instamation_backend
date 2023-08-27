@@ -1,9 +1,9 @@
 from cryptography.fernet import Fernet
 from flask_restful import Resource, reqparse
-from werkzeug.exceptions import BadRequest
 
 from utils.decorators import requires_auth
 from utils.helpers import encrypt_string, decrypt_string
+from utils.enums import ErrorResponse
 from config.database import db_session
 from models import Settings, Users
 
@@ -23,7 +23,7 @@ class SettingsRoute(Resource):
             return {"success": True, "message": "Settings saved successfully!"}
 
         except Exception as e:
-            raise BadRequest(e)
+            return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
 
     @requires_auth
     def get(self):
@@ -31,7 +31,7 @@ class SettingsRoute(Resource):
             return get_settings_from_db(self.current_user)
 
         except Exception as e:
-            raise BadRequest(e)
+            return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
 
 
 def store_settings_in_db(args, current_user):
@@ -62,7 +62,7 @@ def store_settings_in_db(args, current_user):
             db_session.commit()
 
     except Exception as e:
-        raise BadRequest(e)
+        return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
 
 
 def get_settings_from_db(current_user):
@@ -77,4 +77,4 @@ def get_settings_from_db(current_user):
         }
 
     except Exception as e:
-        raise BadRequest(e)
+        return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value

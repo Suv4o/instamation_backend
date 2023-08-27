@@ -3,10 +3,10 @@ import io, os, uuid
 from PIL import Image
 from appwrite.input_file import InputFile
 from flask_restful import Resource, reqparse
-from werkzeug.exceptions import BadRequest
 from werkzeug.datastructures import FileStorage
 
 from utils.decorators import requires_auth
+from utils.enums import ErrorResponse
 from utils.helpers import Appwrite
 from config.environments import APPWRITE_BUCKET_ID, TEMP_IMAGES_PATH
 
@@ -30,7 +30,7 @@ class AssetsRoute(Resource):
             )
 
             if not image_extension:
-                raise BadRequest("Invalid image file")
+                return {"success": False, "message": "Invalid image file"}, ErrorResponse.BAD_REQUEST.value
 
             image_binary_data = file_storage_to_binary(image_file)
             image_uuid = uuid.uuid4()
@@ -43,12 +43,18 @@ class AssetsRoute(Resource):
                 image_uuid,
                 InputFile.from_path(f"{TEMP_IMAGES_PATH}/{image_uuid}.{image_extension}"),
             )
-            os.remove(f"{TEMP_IMAGES_PATH}/{image_uuid}.{image_extension}")
+            clear_temp_images()
 
             return {"success": True, "message": "File uploaded successfully"}
         except Exception as e:
-            raise BadRequest(e)
+            clear_temp_images()
+            return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
 
 
 def file_storage_to_binary(file: FileStorage) -> bytes:
     return file.read()
+
+
+def clear_temp_images():
+    for file in os.listdir(TEMP_IMAGES_PATH):
+        os.remove(f"{TEMP_IMAGES_PATH}/{file}")
