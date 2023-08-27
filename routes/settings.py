@@ -72,8 +72,10 @@ def get_settings_from_db(current_user):
         settings = Settings.query.join(Settings.user).filter(Users.uid == user.uid).first()
 
         return {
-            "instagram_username": settings.instagram_username,
-            "instagram_password": decrypt_string(settings.instagram_password, settings.encryption_key),
+            "instagram_username": settings.instagram_username if settings else "",
+            "instagram_password": decrypt_string(settings.instagram_password, settings.encryption_key)
+            if settings
+            else "",
         }
 
     except Exception as e:

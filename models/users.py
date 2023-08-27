@@ -11,6 +11,7 @@ class Users(TimeStampedModel):
     email = Column(String(320), nullable=False, unique=True)
 
     setting = Relationship("Settings", back_populates="user", uselist=False, passive_deletes=True)
+    asset = Relationship("Assets", back_populates="user", uselist=False, passive_deletes=True)
 
     def __repr__(self):
         return f"{self.__class__.__name__}, id: {self.uid}, email: {self.email}"
