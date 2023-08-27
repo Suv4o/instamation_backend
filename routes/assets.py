@@ -4,11 +4,14 @@ from PIL import Image
 from appwrite.input_file import InputFile
 from flask_restful import Resource, reqparse
 from werkzeug.datastructures import FileStorage
+from werkzeug.exceptions import BadRequest
 
 from utils.decorators import requires_auth
 from utils.enums import ErrorResponse
-from utils.helpers import Appwrite
-from config.environments import APPWRITE_BUCKET_ID, TEMP_IMAGES_PATH
+from config.appwrite import Appwrite
+from config.environments import APPWRITE_BUCKET_ID, APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID, TEMP_IMAGES_PATH
+from config.database import db_session
+from models import Assets, Users
 
 
 class AssetsRoute(Resource):
@@ -21,6 +24,7 @@ class AssetsRoute(Resource):
             parser.add_argument("image", type=FileStorage, location="files")
             args = parser.parse_args()
             image_file = args["image"]
+            original_file_name = image_file.filename
             image_extension = (
                 "jpg"
                 if image_file.filename.split(".")[-1] in ["jpeg", "jpg"]
@@ -43,7 +47,15 @@ class AssetsRoute(Resource):
                 image_uuid,
                 InputFile.from_path(f"{TEMP_IMAGES_PATH}/{image_uuid}.{image_extension}"),
             )
+            image_url = f"{APPWRITE_ENDPOINT}/storage/buckets/{APPWRITE_BUCKET_ID}/files/{image_uuid}/view?project={APPWRITE_PROJECT_ID}"
             clear_temp_images()
+
+            image_details = {
+                "original_file_name": original_file_name,
+                "image_uuid": image_uuid,
+                "image_url": image_url,
+            }
+            store_image_in_db(image_details, current_user=self.current_user)
 
             return {"success": True, "message": "File uploaded successfully"}
         except Exception as e:
@@ -58,3 +70,21 @@ def file_storage_to_binary(file: FileStorage) -> bytes:
 def clear_temp_images():
     for file in os.listdir(TEMP_IMAGES_PATH):
         os.remove(f"{TEMP_IMAGES_PATH}/{file}")
+
+
+def store_image_in_db(image_details, current_user):
+    user_email = current_user["email"]
+    try:
+        user = Users.query.filter(Users.email == user_email).first()
+
+        image = Assets(
+            aid=image_details["image_uuid"],
+            url=image_details["image_url"],
+            original_filename=image_details["original_file_name"],
+            user_id=user.uid,
+        )
+        db_session.add(image)
+        db_session.commit()
+
+    except Exception as e:
+        raise BadRequest(e)
