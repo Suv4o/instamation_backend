@@ -62,6 +62,14 @@ class AssetsRoute(Resource):
             clear_temp_images()
             return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
 
+    @requires_auth
+    def get(self):
+        try:
+            return get_images_from_db(self.current_user)
+
+        except Exception as e:
+            return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
+
 
 def file_storage_to_binary(file: FileStorage) -> bytes:
     return file.read()
@@ -85,6 +93,31 @@ def store_image_in_db(image_details, current_user):
         )
         db_session.add(image)
         db_session.commit()
+
+    except Exception as e:
+        raise BadRequest(e)
+
+
+def get_images_from_db(current_user):
+    user_email = current_user["email"]
+    try:
+        user = Users.query.filter(Users.email == user_email).first()
+        assets = Assets.query.join(Assets.user).filter(Users.uid == user.uid).all()
+
+        images = []
+
+        for asset in assets:
+            image = {
+                "id": asset.aid,
+                "url": asset.url,
+                "original_filename": asset.original_filename,
+            }
+            images.append(image)
+
+        if not assets:
+            return {"success": True, "images": []}
+        else:
+            return {"success": True, "images": images}
 
     except Exception as e:
         raise BadRequest(e)

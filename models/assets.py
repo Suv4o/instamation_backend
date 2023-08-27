@@ -17,4 +17,6 @@ class Assets(TimeStampedModel):
     user = Relationship("Users", back_populates="asset")
 
     def __repr__(self):
-        return f"{self.__class__.__name__}, id: {self.aid}, url: {self.url}, original_filename: {self.original_filename}, stored_filename: {self.stored_filename}"
+        return (
+            f"{self.__class__.__name__}, id: {self.aid}, url: {self.url}, original_filename: {self.original_filename}"
+        )
