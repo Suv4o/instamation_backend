@@ -57,7 +57,10 @@ class AssetsRoute(Resource):
             }
             store_image_in_db(image_details, current_user=self.current_user)
 
-            return {"success": True, "message": "File uploaded successfully"}
+            return {
+                "success": True,
+                "image": {"id": str(image_uuid), "url": image_url, "original_filename": original_file_name},
+            }
         except Exception as e:
             clear_temp_images()
             return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
