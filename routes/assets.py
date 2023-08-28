@@ -140,6 +140,9 @@ def delete_image_from_db(image_uuid, current_user):
         user = Users.query.filter(Users.email == user_email).first()
         asset = Assets.query.filter(Assets.aid == image_uuid).first()
 
+        if not asset:
+            raise BadRequest("Image not found.")
+
         if asset.user_id != user.uid:
             raise Unauthorized("You are not authorized to delete this image.")
 

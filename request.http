@@ -33,7 +33,7 @@ content-type: application/json
 {}
 
 ### Delete Assets
-DELETE {{baseUrl}}/assets/0349a195-634f-4f24-aac2-441cf701f47e HTTP/1.1
+DELETE {{baseUrl}}/assets/091676eb-b0ea-4e54-a44a-24f2224bed06 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
