@@ -4,7 +4,7 @@ from PIL import Image
 from appwrite.input_file import InputFile
 from flask_restful import Resource, reqparse
 from werkzeug.datastructures import FileStorage
-from werkzeug.exceptions import BadRequest
+from werkzeug.exceptions import BadRequest, Unauthorized
 
 from utils.decorators import requires_auth
 from utils.enums import ErrorResponse
@@ -73,6 +73,14 @@ class AssetsRoute(Resource):
         except Exception as e:
             return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
 
+    @requires_auth
+    def delete(self, image_uuid):
+        try:
+            delete_image_from_db(image_uuid, self.current_user)
+            return {"success": True, "message": "Image deleted successfully!"}
+        except Exception as e:
+            return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
+
 
 def file_storage_to_binary(file: FileStorage) -> bytes:
     return file.read()
@@ -122,5 +130,26 @@ def get_images_from_db(current_user):
         else:
             return {"success": True, "images": images}
 
+    except Exception as e:
+        raise BadRequest(e)
+
+
+def delete_image_from_db(image_uuid, current_user):
+    user_email = current_user["email"]
+    try:
+        user = Users.query.filter(Users.email == user_email).first()
+        asset = Assets.query.filter(Assets.aid == image_uuid).first()
+
+        if asset.user_id != user.uid:
+            raise Unauthorized("You are not authorized to delete this image.")
+
+        appwrite = Appwrite()
+        appwrite.storage.delete_file(
+            APPWRITE_BUCKET_ID,
+            image_uuid,
+        )
+
+        db_session.delete(asset)
+        db_session.commit()
     except Exception as e:
         raise BadRequest(e)

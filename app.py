@@ -15,6 +15,7 @@ api = Api(app, prefix="/api")
 api.add_resource(Auth, "/")
 api.add_resource(SettingsRoute, "/settings")
 api.add_resource(AssetsRoute, "/assets")
+api.add_resource(AssetsRoute, "/assets/<image_uuid>", endpoint="assets_route")
 
 if __name__ == "__main__":
     generate_requirements()

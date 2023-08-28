@@ -31,3 +31,10 @@ Authorization: Bearer {{token}}
 content-type: application/json
 
 {}
+
+### Delete Assets
+DELETE {{baseUrl}}/assets/0349a195-634f-4f24-aac2-441cf701f47e HTTP/1.1
+Authorization: Bearer {{token}}
+content-type: application/json
+
+{}
