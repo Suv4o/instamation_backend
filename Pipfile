@@ -19,6 +19,7 @@ cryptography = "*"
 flask-cors = "*"
 appwrite = "*"
 pillow = "*"
+transformers = {version = "*", extras = ["flax"]}
 
 [dev-packages]
 

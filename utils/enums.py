@@ -22,3 +22,9 @@ class ErrorResponse(Enum):
     BAD_GATEWAY = 502
     SERVICE_UNAVAILABLE = 503
     GATEWAY_TIMEOUT = 504
+
+
+class ImageToTextModels(Enum):
+    SALESFORCE = "Salesforce/blip-image-captioning-large"
+    MICROSOFT = "microsoft/git-large-coco"
+    NLPCONNECT = "nlpconnect/vit-gpt2-image-captioning"
