@@ -13,19 +13,14 @@ class ContentRoute(Resource):
         try:
             image_url = "https://cloud.appwrite.io/v1/storage/buckets/64e5cc958cab7d04ed70/files/648ebcac-0a4a-48ec-abd5-350ed839540d/view?project=64e5c98a5b64fe8eac18"
 
-            captioner_salesforce = ImageToTextModel(ImageToTextModels.SALESFORCE.value)
-            image_capture_salesforce = captioner_salesforce.predict(image_url)
-
-            captioner_microsoft = ImageToTextModel(ImageToTextModels.MICROSOFT.value)
-            image_capture_microsoft = captioner_microsoft.predict(image_url)
-
-            captioner_nlpconnect = ImageToTextModel(ImageToTextModels.NLPCONNECT.value)
-            image_capture_nlpconnect = captioner_nlpconnect.predict(image_url)
+            image_capture_salesforce = get_image_capture(ImageToTextModels.SALESFORCE.value, image_url)
+            image_capture_microsoft = get_image_capture(ImageToTextModels.MICROSOFT.value, image_url)
+            image_capture_nlpconnect = get_image_capture(ImageToTextModels.NLPCONNECT.value, image_url)
 
             response = {
-                "salesforce": image_capture_salesforce.pop().get("generated_text"),
-                "microsoft": image_capture_microsoft.pop().get("generated_text"),
-                "nlpconnect": image_capture_nlpconnect.pop().get("generated_text"),
+                "salesforce": image_capture_salesforce,
+                "microsoft": image_capture_microsoft,
+                "nlpconnect": image_capture_nlpconnect,
             }
 
             return response
@@ -43,3 +38,11 @@ class ImageToTextModel:
     def predict(self, image_url):
         """Predict method"""
         return self.captioner(image_url)
+
+
+def get_image_capture(model_name, image_url):
+    """Get image capture method"""
+
+    captioner = ImageToTextModel(model_name)
+    image_capture = captioner.predict(image_url)
+    return image_capture.pop().get("generated_text")
