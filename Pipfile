@@ -4,22 +4,24 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
-flask-restful = "*"
-python-dotenv = "*"
-waitress = "*"
-watchdog = "*"
-python-jose = "*"
-six = "*"
-alembic = "*"
-sqlalchemy = "*"
-psycopg2 = "*"
-requests = "*"
-cryptography = "*"
-flask-cors = "*"
-appwrite = "*"
-pillow = "*"
-transformers = {version = "*", extras = ["flax"]}
+flask = "~=2.3.3"
+flask-restful = "~=0.3.10"
+python-dotenv = "~=1.0.0"
+waitress = "~=2.1.2"
+watchdog = "~=3.0.0"
+python-jose = "~=3.3.0"
+six = "~=1.16.0"
+alembic = "~=1.11.3"
+sqlalchemy = "~=2.0.20"
+psycopg2 = "~=2.9.7"
+requests = "~=2.31.0"
+cryptography = "~=41.0.3"
+flask-cors = "~=4.0.0"
+appwrite = "~=3.0.0"
+pillow = "~=10.0.0"
+transformers = {version = "~=4.32.1", extras = ["flax"]}
+langchain = {version = "~=0.0.27", extras = ["all"]}
+openai = "~=0.28.0"
 
 [dev-packages]
 
