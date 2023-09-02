@@ -1,8 +1,10 @@
 from flask_restful import Resource
 from transformers import pipeline
+from langchain import PromptTemplate, OpenAI, LLMChain
 
 from utils.decorators import requires_auth
 from utils.enums import ErrorResponse, ImageToTextModels
+from config.environments import OPENAI_API_KEY
 
 
 class ContentRoute(Resource):
@@ -11,17 +13,33 @@ class ContentRoute(Resource):
     @requires_auth
     def get(self):
         try:
-            image_url = "https://cloud.appwrite.io/v1/storage/buckets/64e5cc958cab7d04ed70/files/648ebcac-0a4a-48ec-abd5-350ed839540d/view?project=64e5c98a5b64fe8eac18"
+            # image_url = "https://cloud.appwrite.io/v1/storage/buckets/64e5cc958cab7d04ed70/files/648ebcac-0a4a-48ec-abd5-350ed839540d/view?project=64e5c98a5b64fe8eac18"
 
-            image_capture_salesforce = get_image_capture(ImageToTextModels.SALESFORCE.value, image_url)
-            image_capture_microsoft = get_image_capture(ImageToTextModels.MICROSOFT.value, image_url)
-            image_capture_nlpconnect = get_image_capture(ImageToTextModels.NLPCONNECT.value, image_url)
+            # image_capture_salesforce = get_image_capture(ImageToTextModels.SALESFORCE.value, image_url)
+            # image_capture_microsoft = get_image_capture(ImageToTextModels.MICROSOFT.value, image_url)
+            # image_capture_nlpconnect = get_image_capture(ImageToTextModels.NLPCONNECT.value, image_url)
 
-            response = {
-                "salesforce": image_capture_salesforce,
-                "microsoft": image_capture_microsoft,
-                "nlpconnect": image_capture_nlpconnect,
-            }
+            # response = {
+            #     "salesforce": image_capture_salesforce,
+            #     "microsoft": image_capture_microsoft,
+            #     "nlpconnect": image_capture_nlpconnect,
+            # }
+
+            template = """Tell me a {adjective} joke about {subject}."""
+            prompt = PromptTemplate(template=template, input_variables=["adjective", "subject"])
+            llm_chain = LLMChain(prompt=prompt, llm=OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY))
+
+            result = llm_chain.predict(adjective="sad", subject="ducks")
+            result = result.replace("\n", "")
+
+            input_start = result.index("Q:") + 2
+            input_end = result.index("A:")
+            output_start = input_end + 2
+
+            input = result[input_start:input_end].strip()
+            output = result[output_start:].strip()
+
+            response = {"input": input, "output": output}
 
             return response
 

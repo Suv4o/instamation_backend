@@ -20,8 +20,9 @@ flask-cors = "~=4.0.0"
 appwrite = "~=3.0.0"
 pillow = "~=10.0.0"
 transformers = {version = "~=4.32.1", extras = ["flax"]}
-langchain = {version = "~=0.0.27", extras = ["all"]}
 openai = "~=0.28.0"
+langchain = {version = "~=0.0.27", extras = ["all"]}
+pydantic = "~=1.10.9"
 
 [dev-packages]
 
