@@ -1,10 +1,11 @@
 import io, os, uuid
+import random
 
 from PIL import Image
 from appwrite.input_file import InputFile
 from flask_restful import Resource, reqparse
 from werkzeug.datastructures import FileStorage
-from werkzeug.exceptions import BadRequest, Unauthorized
+from werkzeug.exceptions import BadRequest, Unauthorized, NotFound
 
 from utils.decorators import requires_auth
 from utils.enums import ErrorResponse
@@ -82,6 +83,18 @@ class AssetsRoute(Resource):
             return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
 
 
+class AssetsRandomRoute(Resource):
+    """Assets Random route definition"""
+
+    @requires_auth
+    def get(self):
+        try:
+            image_url = get_random_image_form_db(self.current_user)
+            return image_url
+        except Exception as e:
+            return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
+
+
 def file_storage_to_binary(file: FileStorage) -> bytes:
     return file.read()
 
@@ -154,5 +167,22 @@ def delete_image_from_db(image_uuid, current_user):
 
         db_session.delete(asset)
         db_session.commit()
+    except Exception as e:
+        raise BadRequest(e)
+
+
+def get_random_image_form_db(current_user):
+    user_email = current_user["email"]
+    try:
+        user = Users.query.filter(Users.email == user_email).first()
+        assets = Assets.query.join(Assets.user).filter(Users.uid == user.uid).all()
+
+        random_image = random.choice(assets)
+
+        if not random_image:
+            raise NotFound("Image not found.")
+        else:
+            return random_image.url
+
     except Exception as e:
         raise BadRequest(e)

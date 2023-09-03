@@ -32,6 +32,13 @@ content-type: application/json
 
 {}
 
+### Get Random Assets
+GET {{baseUrl}}/assets/random HTTP/1.1
+Authorization: Bearer {{token}}
+content-type: application/json
+
+{}
+
 ### Delete Assets
 DELETE {{baseUrl}}/assets/091676eb-b0ea-4e54-a44a-24f2224bed06 HTTP/1.1
 Authorization: Bearer {{token}}
