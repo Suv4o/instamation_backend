@@ -5,19 +5,21 @@ from PIL import Image
 import requests
 from transformers import CLIPProcessor, CLIPModel
 from sentence_transformers import SentenceTransformer, util
+from werkzeug.exceptions import BadRequest, NotFound
 
 from utils.decorators import requires_auth
 from utils.enums import ErrorResponse, ImageToTextModels
 from config.environments import OPENAI_API_KEY
+from models import Assets
 
 
 class ContentRoute(Resource):
     """Content route definition"""
 
     @requires_auth
-    def get(self):
+    def get(self, image_uuid):
         try:
-            image_url = "https://cloud.appwrite.io/v1/storage/buckets/64e5cc958cab7d04ed70/files/648ebcac-0a4a-48ec-abd5-350ed839540d/view?project=64e5c98a5b64fe8eac18"
+            image_url = get_image_url_from_db(image_uuid)
 
             image_capture_salesforce = get_image_capture(ImageToTextModels.SALESFORCE.value, image_url)
             image_capture_microsoft = get_image_capture(ImageToTextModels.MICROSOFT.value, image_url)
@@ -172,3 +174,16 @@ def get_image_description(image_classes_string):
     result = result[result_start:].strip()
 
     return result
+
+
+def get_image_url_from_db(image_uuid):
+    try:
+        asset = Assets.query.filter(Assets.aid == image_uuid).first()
+
+        if not asset:
+            raise NotFound("Image not found.")
+        else:
+            return asset.url
+
+    except Exception as e:
+        raise BadRequest(e)
