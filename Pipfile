@@ -23,6 +23,7 @@ transformers = {version = "~=4.32.1", extras = ["flax"]}
 openai = "~=0.28.0"
 langchain = {version = "~=0.0.27", extras = ["all"]}
 pydantic = "~=1.10.9"
+sentence-transformers = "~=2.2.2"
 
 [dev-packages]
 
