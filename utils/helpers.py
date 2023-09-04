@@ -1,6 +1,8 @@
 import json
+import time
 
 import requests
+import schedule
 from jose import jwt
 from six.moves.urllib.request import urlopen
 from werkzeug.exceptions import Unauthorized
@@ -82,3 +84,9 @@ def decrypt_string(string, key):
     fernet = Fernet(key.encode("utf-8"))
     decrypted_string = fernet.decrypt(string).decode()
     return decrypted_string
+
+
+def run_scheduler():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)

@@ -52,3 +52,17 @@ Authorization: Bearer {{token}}
 content-type: application/json
 
 {}
+
+### Set Corn Job
+GET {{baseUrl}}/scheduler HTTP/1.1
+Authorization: Bearer {{token}}
+content-type: application/json
+
+{}
+
+### Delete Corn Job
+DELETE {{baseUrl}}/scheduler HTTP/1.1
+Authorization: Bearer {{token}}
+content-type: application/json
+
+{}

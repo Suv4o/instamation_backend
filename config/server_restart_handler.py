@@ -1,5 +1,6 @@
 import os
 import sys
+import threading
 
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -8,6 +9,7 @@ from waitress import serve
 from config.environments import PYTHON_ENV, SERVER_HOST, SERVER_PORT
 from config.logging import Logger
 from utils.enums import PythonEnv
+from utils.helpers import run_scheduler
 
 console = Logger("app").get()
 
@@ -32,7 +34,16 @@ def run_server(app):
     observer.start()
     try:
         console.info("Starting server...")
-        serve(app, host=SERVER_HOST, port=SERVER_PORT)
+
+        serve_thread = threading.Thread(target=serve, args=(app,), kwargs={"host": SERVER_HOST, "port": SERVER_PORT})
+        serve_thread.start()
+
+        scheduler_thread = threading.Thread(target=run_scheduler)
+        scheduler_thread.start()
+
+        serve_thread.join()
+        scheduler_thread.join()
+
     except KeyboardInterrupt:
         observer.stop()
     observer.join()

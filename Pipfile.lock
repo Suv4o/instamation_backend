@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "38b813bd62633e1cf1fa75555e52dc6ff32789d367196d94e3900ead6137bc31"
+            "sha256": "1c646ca42dbb0f97de38f8a16a1835c2de9c5dc9a6a8d651bb6f101e7ff88a59"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -682,11 +682,11 @@
         },
         "fsspec": {
             "hashes": [
-                "sha256:1cbad1faef3e391fba6dc005ae9b5bdcbf43005c9167ce78c915549c352c869a",
-                "sha256:d0b2f935446169753e7a5c5c55681c54ea91996cc67be93c39a154fb3a2742af"
+                "sha256:4dbf0fefee035b7c6d3bbbe6bc99b2f201f40d4dca95b67c2b719be77bcd917f",
+                "sha256:d55b9ab2a4c1f2b759888ae9f93e40c2aa72c0808132e87e282b549f9e6c4254"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==2023.6.0"
+            "version": "==2023.9.0"
         },
         "google-search-results": {
             "hashes": [
@@ -1651,6 +1651,14 @@
             ],
             "version": "==0.3.3"
         },
+        "schedule": {
+            "hashes": [
+                "sha256:415908febaba0bc9a7c727a32efb407d646fe994367ef9157d123aabbe539ea8",
+                "sha256:b4ad697aafba7184c9eb6a1e2ebc41f781547242acde8ceae9a0a25b04c0922d"
+            ],
+            "index": "pypi",
+            "version": "==1.2.0"
+        },
         "scikit-learn": {
             "hashes": [
                 "sha256:0e8102d5036e28d08ab47166b48c8d5e5810704daecf3a476a4282d562be9a28",
@@ -1792,11 +1800,11 @@
         },
         "soupsieve": {
             "hashes": [
-                "sha256:1c1bfee6819544a3447586c889157365a27e10d88cde3ad3da0cf0ddf646feb8",
-                "sha256:89d12b2d5dfcd2c9e8c22326da9d9aa9cb3dfab0a83a024f05704076ee8d35ea"
+                "sha256:5663d5a7b3bfaeee0bc4372e7fc48f9cff4940b3eec54a6451cc5299f1097690",
+                "sha256:eaa337ff55a1579b6549dc679565eac1e3d000563bcb1c8ab0d0fefbc0c2cdc7"
             ],
-            "markers": "python_version >= '3.7'",
-            "version": "==2.4.1"
+            "markers": "python_version >= '3.8'",
+            "version": "==2.5"
         },
         "spacy": {
             "hashes": [
