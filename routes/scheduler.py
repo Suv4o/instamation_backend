@@ -16,9 +16,12 @@ class SchedulerRoute(Resource):
     def get(self):
         try:
             user_from_db = get_user_from_db(self.current_user)
-            all_jobs = schedule.get_jobs()
-            print(all_jobs)
-            schedule.every(1).seconds.do(test_print).tag(user_from_db.uid)
+            current_job = schedule.get_jobs(user_from_db.uid)
+
+            if current_job:
+                return {"success": True, "message": "Scheduled task already exist!"}
+
+            schedule.every(3).minutes.do(post_image_to_instagram).tag(user_from_db.uid)
 
             return {"success": True, "message": "Scheduled!"}
 
@@ -30,13 +33,14 @@ class SchedulerRoute(Resource):
         try:
             user_from_db = get_user_from_db(self.current_user)
             schedule.clear(user_from_db.uid)
+
             return {"success": True, "message": "Stopped!"}
 
         except Exception as e:
             return {"success": False, "message": str(e)}, ErrorResponse.BAD_REQUEST.value
 
 
-def test_print():
+def post_image_to_instagram():
     print("test print")
 
 
