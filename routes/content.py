@@ -19,20 +19,7 @@ class ContentRoute(Resource):
     @requires_auth
     def get(self, image_uuid):
         try:
-            image_url = get_image_url_from_db(image_uuid)
-
-            image_capture_salesforce = get_image_capture(ImageToTextModels.SALESFORCE.value, image_url)
-            image_capture_microsoft = get_image_capture(ImageToTextModels.MICROSOFT.value, image_url)
-            image_capture_nlpconnect = get_image_capture(ImageToTextModels.NLPCONNECT.value, image_url)
-
-            image_classes = get_image_classes(
-                image_capture_salesforce, image_capture_microsoft, image_capture_nlpconnect
-            )
-
-            image_classes_string = get_zero_shot_image_classes_top_scores(image_url, image_classes)
-
-            result = get_image_description(image_classes_string)
-
+            result = get_image_content(image_uuid)
             return result
 
         except Exception as e:
@@ -187,3 +174,19 @@ def get_image_url_from_db(image_uuid):
 
     except Exception as e:
         raise BadRequest(e)
+
+
+def get_image_content(image_uuid):
+    image_url = get_image_url_from_db(image_uuid)
+
+    image_capture_salesforce = get_image_capture(ImageToTextModels.SALESFORCE.value, image_url)
+    image_capture_microsoft = get_image_capture(ImageToTextModels.MICROSOFT.value, image_url)
+    image_capture_nlpconnect = get_image_capture(ImageToTextModels.NLPCONNECT.value, image_url)
+
+    image_classes = get_image_classes(image_capture_salesforce, image_capture_microsoft, image_capture_nlpconnect)
+
+    image_classes_string = get_zero_shot_image_classes_top_scores(image_url, image_classes)
+
+    result = get_image_description(image_classes_string)
+
+    return result

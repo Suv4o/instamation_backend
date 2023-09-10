@@ -1,5 +1,4 @@
-import io, os, uuid
-import random
+import io, os, uuid, random
 
 from PIL import Image
 from appwrite.input_file import InputFile
@@ -171,7 +170,7 @@ def delete_image_from_db(image_uuid, current_user):
         raise BadRequest(e)
 
 
-def get_random_image_form_db(current_user):
+def get_random_image_form_db(current_user, arg="url"):
     user_email = current_user["email"]
     try:
         user = Users.query.filter(Users.email == user_email).first()
@@ -179,10 +178,21 @@ def get_random_image_form_db(current_user):
 
         random_image = random.choice(assets)
 
+        random_image = {
+            "id": random_image.aid,
+            "url": random_image.url,
+            "original_filename": random_image.original_filename,
+            "created_at": random_image.created_at,
+            "updated_at": random_image.updated_at,
+        }
+
         if not random_image:
             raise NotFound("Image not found.")
         else:
-            return random_image.url
+            if arg == "all":
+                return random_image
+            else:
+                return random_image.get(arg)
 
     except Exception as e:
         raise BadRequest(e)
